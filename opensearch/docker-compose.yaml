@@ -21,7 +21,7 @@ services:
     volumes:
       - /opt/opensearch/opensearch-data1:/usr/share/opensearch/data
     ports:
-      - 9200:9200
+      - 9201:9200
       - 9600:9600  # required for Performance Analyzer
     networks:
       - opensearch-net
