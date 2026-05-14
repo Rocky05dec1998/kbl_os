@@ -1,0 +1,4 @@
+grafana/grafana-enterprise_*.tar.gz
+grafana/loki/data/
+grafana/mimir/files.zip
+*.mmdb
