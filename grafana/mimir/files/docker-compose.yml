@@ -1,0 +1,44 @@
+version: "3.8"
+
+# =============================================================================
+# Grafana Mimir - single instance, local filesystem storage
+# =============================================================================
+# One Mimir container. Long-term blocks, rules, and alertmanager state all
+# live on a local Docker volume. No object store.
+#
+# Point your existing Grafana at http://<host>:9009/prometheus
+# with header X-Scope-OrgID = <tenant>
+# =============================================================================
+
+services:
+  mimir:
+    image: grafana/mimir:2.14.3
+    container_name: mimir
+    restart: unless-stopped
+    environment:
+      - MIMIR_API_USER=mimir   # set basic auth username (if empty and MIMIR_API_KEY set, MIMIR_TENANT_ID is used)
+      - MIMIR_API_KEY=mimir
+      - MIMIR_TENANT_ID=mimir
+    command:
+      - "-target=all,alertmanager,overrides-exporter"
+      - "-config.file=/etc/mimir/mimir.yaml"
+    volumes:
+      - ./mimir.yaml:/etc/mimir/mimir.yaml:ro
+      - ./runtime.yaml:/etc/mimir/runtime.yaml:ro
+      - mimir-data:/data
+    ports:
+      - "9009:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:8080/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  mimir-data:

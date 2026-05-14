@@ -1,0 +1,11 @@
+# Runtime config - hot-reloaded every 10s.
+# Override per-tenant limits without restarting Mimir.
+#
+# Example:
+#
+# overrides:
+#   tenant-a:
+#     ingestion_rate: 200000
+#     max_global_series_per_user: 3000000
+
+overrides: {}

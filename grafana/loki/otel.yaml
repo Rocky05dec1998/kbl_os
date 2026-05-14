@@ -1,0 +1,223 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: app-logs
+  namespace: monitoring
+spec:
+  mode: daemonset  # Required for kubeletstats and hostmetrics
+
+  tolerations:
+  - effect: NoSchedule
+    key: application_type
+    operator: Equal
+    value: impactful
+  - effect: NoSchedule
+    key: application_type
+    operator: Equal
+    value: non-impactful
+
+  image: otel/opentelemetry-collector-contrib:0.150.1
+
+  # ServiceAccount needs RBAC to read kubelet stats and k8s objects
+  serviceAccount: otel-collector
+
+  env:
+    - name: K8S_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    - name: K8S_NODE_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+    - name: varlibdockercontainers
+      hostPath:
+        path: /var/lib/docker/containers
+    - name: hostfs
+      hostPath:
+        path: /
+
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+    - name: varlibdockercontainers
+      mountPath: /var/lib/docker/containers
+      readOnly: true
+    - name: hostfs
+      mountPath: /hostfs
+      readOnly: true
+      mountPropagation: HostToContainer
+
+  config:
+    receivers:
+      # filelog:
+      #   include:
+      #     - /var/log/pods/*/*/*.log
+      #   exclude:
+      #     - /var/log/pods/kube-system_*/*/*.log
+      #     - /var/log/pods/amazon-cloudwatch_*/*/*.log
+      #     - /var/log/pods/kube-public_*/*/*.log
+      #     - /var/log/pods/kube-node-lease_*/*/*.log
+      #     - /var/log/pods/monitoring_*/*/*.log
+      #   start_at: end
+      #   operators:
+      #     - type: regex_parser
+      #       regex: '^[^ ]+ (?P<stream>stdout|stderr) [^ ]+ (?P<msg>.*)$'
+      #       on_error: drop_quiet
+      #     - type: filter
+      #       expr: 'attributes.msg not matches "^\\{\"app\":"'
+      #     - type: move
+      #       from: attributes.msg
+      #       to: body
+
+      # Pod / container CPU, memory, network, filesystem (from kubelet)
+      kubeletstats:
+        collection_interval: 30s
+        auth_type: serviceAccount
+        endpoint: "https://${env:K8S_NODE_IP}:10250"
+        insecure_skip_verify: true
+        node: "${env:K8S_NODE_NAME}"
+        metric_groups:
+          - node
+          - pod
+          - container
+          - volume
+        extra_metadata_labels:
+          - container.id
+          - k8s.volume.type
+
+      # Node-level host metrics (CPU, mem, disk, net, filesystem, load)
+      hostmetrics:
+        collection_interval: 30s
+        root_path: /hostfs
+        scrapers:
+          cpu:
+          memory:
+          disk:
+          filesystem:
+            exclude_mount_points:
+              mount_points: ["/dev/*", "/proc/*", "/sys/*", "/var/lib/docker/*", "/var/lib/kubelet/*", "/snap/*"]
+              match_type: regexp
+            exclude_fs_types:
+              fs_types: ["autofs", "binfmt_misc", "bpf", "cgroup2", "configfs", "debugfs", "devpts", "devtmpfs", "fusectl", "hugetlbfs", "iso9660", "mqueue", "nsfs", "overlay", "proc", "procfs", "pstore", "rpc_pipefs", "securityfs", "selinuxfs", "squashfs", "sysfs", "tracefs"]
+              match_type: strict
+          load:
+          network:
+          paging:
+          processes:
+
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+
+      batch:
+        timeout: 5s
+        send_batch_size: 10
+
+      # Attach k8s.node.name etc. to host metrics so Mimir labels are useful
+      resource/hostmetrics:
+        attributes:
+          - key: k8s.node.name
+            value: "${env:K8S_NODE_NAME}"
+            action: upsert
+
+      # Enrich pod/container metrics with k8s metadata (namespace, deployment, labels)
+      k8sattributes:
+        auth_type: serviceAccount
+        passthrough: false
+        extract:
+          metadata:
+            - k8s.namespace.name
+            - k8s.pod.name
+            - k8s.pod.uid
+            - k8s.deployment.name
+            - k8s.statefulset.name
+            - k8s.daemonset.name
+            - k8s.node.name
+        pod_association:
+          - sources:
+              - from: resource_attribute
+                name: k8s.pod.uid
+
+    exporters:
+    #   otlphttp/loki:
+    #     endpoint: https://tetrahydric-weasely-danyelle.ngrok-free.dev/otlp
+    #     headers:
+    #       X-Scope-OrgID: eks-logs
+
+      # Mimir accepts Prometheus remote_write
+      prometheusremotewrite/mimir:
+        endpoint: https://tetrahydric-weasely-danyelle.ngrok-free.dev/api/v1/push
+        headers:
+          X-Scope-OrgID: anonymous
+        resource_to_telemetry_conversion:
+          enabled: true   # turns resource attrs (k8s.pod.name etc.) into labels
+        tls:
+          insecure_skip_verify: true
+
+      debug:
+        verbosity: detailed
+        sampling_initial: 5
+        sampling_thereafter: 200
+
+    service:
+      telemetry:
+        logs:
+          level: debug
+      pipelines:
+        # logs:
+        #   receivers:  [filelog]
+        #   processors: [memory_limiter, batch]
+        #   exporters:  [debug, otlphttp/loki]
+
+        metrics:
+          receivers:  [kubeletstats, hostmetrics]
+          processors: [memory_limiter, k8sattributes, resource/hostmetrics, batch]
+          exporters:  [prometheusremotewrite/mimir]
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: otel-collector
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: otel-collector
+rules:
+  - apiGroups: [""]
+    resources: ["nodes/stats", "nodes/proxy", "nodes/metrics"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "namespaces", "nodes", "services", "endpoints"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets", "daemonsets", "replicasets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["extensions"]
+    resources: ["replicasets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: otel-collector
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: otel-collector
+subjects:
+  - kind: ServiceAccount
+    name: otel-collector
+    namespace: monitoring
