@@ -1,0 +1,357 @@
+# ============================================================
+#  OpenTelemetry Collector Configuration
+#  Target  : On-Premise RHEL (Red Hat Enterprise Linux)
+#  Purpose : Collect host metrics → push to Grafana Mimir
+#  Features: AUTO hostname + IP detection, server tagging,
+#             custom label filters, groupable stacked dashboards
+# ============================================================
+#
+#  HOW HOSTNAME & IP ARE AUTO-DETECTED:
+#  - Hostname : read from /proc/sys/kernel/hostname (system detector)
+#  - IP       : resolved via a shell script wrapper that injects
+#               OTEL_RESOURCE_ATTRIBUTES before starting the collector
+#               (see the systemd unit / wrapper script at the bottom)
+#
+#  NO manual edits needed for server.name or server.ip.
+#  Only edit the "OTHER SERVER TAGS" and "CUSTOM FILTERS" sections.
+# ============================================================
+
+
+# -----------------------------------------------------------------
+# EXTENSIONS
+# -----------------------------------------------------------------
+extensions:
+  health_check:
+    endpoint: "0.0.0.0:13133"
+  pprof:
+    endpoint: "0.0.0.0:1777"
+  zpages:
+    endpoint: "0.0.0.0:55679"
+
+
+# -----------------------------------------------------------------
+# RECEIVERS  –  Host Metrics
+# -----------------------------------------------------------------
+receivers:
+  hostmetrics:
+    # root_path: /hostfs   # uncomment if running inside a container
+    collection_interval: 30s
+
+    scrapers:
+
+      # ── CPU ────────────────────────────────────────────────────
+      cpu:
+        metrics:
+          system.cpu.time:
+            enabled: true
+          system.cpu.utilization:
+            enabled: true
+
+      # ── Load Average ───────────────────────────────────────────
+      load:
+        metrics:
+          system.cpu.load_average.1m:
+            enabled: true
+          system.cpu.load_average.5m:
+            enabled: true
+          system.cpu.load_average.15m:
+            enabled: true
+
+      # ── Memory ─────────────────────────────────────────────────
+      memory:
+        metrics:
+          system.memory.usage:
+            enabled: true
+          system.memory.utilization:
+            enabled: true
+
+      # ── Swap ───────────────────────────────────────────────────
+      paging:
+        metrics:
+          system.paging.usage:
+            enabled: true
+          system.paging.utilization:
+            enabled: true
+          system.paging.faults:
+            enabled: true
+          system.paging.operations:
+            enabled: true
+
+      # ── Disk I/O ───────────────────────────────────────────────
+      disk:
+        metrics:
+          system.disk.io:
+            enabled: true
+          system.disk.operations:
+            enabled: true
+          system.disk.io_time:
+            enabled: true
+          system.disk.operation_time:
+            enabled: true
+          system.disk.merged:
+            enabled: true
+          system.disk.pending_operations:
+            enabled: true
+        exclude:
+          devices: [loop*, ram*, sr*]
+          match_type: regexp
+
+      # ── Filesystem ─────────────────────────────────────────────
+      filesystem:
+        metrics:
+          system.filesystem.usage:
+            enabled: true
+          system.filesystem.utilization:
+            enabled: true
+          system.filesystem.inodes.usage:
+            enabled: true
+        exclude_fs_types:
+          fs_types:
+            - tmpfs
+            - devtmpfs
+            - devfs
+            - overlay
+            - squashfs
+            - autofs
+            - binfmt_misc
+            - cgroup
+            - cgroup2
+            - configfs
+            - debugfs
+            - fusectl
+            - hugetlbfs
+            - mqueue
+            - nsfs
+            - proc
+            - pstore
+            - securityfs
+            - selinuxfs
+            - sysfs
+            - tracefs
+          match_type: strict
+        exclude_mount_points:
+          mount_points: [/proc/*, /sys/*, /dev/*, /run/*, /snap/*]
+          match_type: regexp
+
+      # ── Network ────────────────────────────────────────────────
+      network:
+        metrics:
+          system.network.io:
+            enabled: true
+          system.network.packets:
+            enabled: true
+          system.network.errors:
+            enabled: true
+          system.network.dropped:
+            enabled: true
+          system.network.connections:
+            enabled: true
+        exclude:
+          interfaces: [lo, virbr*, veth*, docker*, br-*]
+          match_type: regexp
+
+      # ── Processes ──────────────────────────────────────────────
+      processes:
+        metrics:
+          system.processes.count:
+            enabled: true
+          system.processes.created:
+            enabled: true
+
+      # ── Per-Process (optional — uncomment & edit) ──────────────
+      # process:
+      #   include:
+      #     names: [nginx, httpd, java, python3, mysqld, postgres]
+      #     match_type: regexp
+      #   mute_process_name_error: true
+      #   metrics:
+      #     process.cpu.time:
+      #       enabled: true
+      #     process.memory.physical_usage:
+      #       enabled: true
+      #     process.memory.virtual_usage:
+      #       enabled: true
+      #     process.disk.io:
+      #       enabled: true
+      #     process.open_file_descriptors:
+      #       enabled: true
+
+
+# -----------------------------------------------------------------
+# PROCESSORS
+# -----------------------------------------------------------------
+processors:
+
+  # ── 1. Memory guard ───────────────────────────────────────────
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 256
+    spike_limit_mib: 64
+
+  # ── 2. Batch ──────────────────────────────────────────────────
+  batch:
+    send_batch_size: 100
+    timeout: 10s
+
+  # ── 3. AUTO-DETECT hostname, IP, and OS ───────────────────────
+  #
+  #  "system" detector reads:
+  #    - host.name  →  /proc/sys/kernel/hostname  (FQDN or short)
+  #    - os.type    →  linux
+  #    - os.description → content of /etc/os-release
+  #
+  #  "env" detector reads OTEL_RESOURCE_ATTRIBUTES env var, which
+  #  the wrapper script populates with the auto-detected IP.
+  #
+  resourcedetection/system:
+    detectors:
+      - env       # picks up server.ip injected by wrapper script
+      - system    # picks up host.name and os.* from the OS
+    system:
+      hostname_sources:
+        - os       # reads /proc/sys/kernel/hostname  (most reliable on RHEL)
+        - dns      # fallback: reverse-DNS lookup
+      resource_attributes:
+        host.name:
+          enabled: true
+        host.ip:
+          enabled: true        # collector will try to populate this
+        host.mac:
+          enabled: false
+        os.type:
+          enabled: true
+        os.description:
+          enabled: true        # e.g. "Red Hat Enterprise Linux 8.9 (Ootpa)"
+    timeout: 10s
+    override: false            # env-injected values take priority
+
+  # ── 4. Normalise / alias auto-detected attributes ─────────────
+  #    Map OTel standard names → our server.* naming convention
+  #    so downstream labels are consistent across all servers.
+  transform/normalize_host_attrs:
+    metric_statements:
+      - context: resource
+        statements:
+          # Alias host.name → server.name (keep both)
+          - set(attributes["server.name"], attributes["host.name"])
+              where attributes["host.name"] != nil
+          # Alias server.ip from env-injected value (set by wrapper script)
+          # The wrapper exports: OTEL_RESOURCE_ATTRIBUTES=server.ip=<auto>
+          # so it arrives as a resource attribute directly.
+
+  # ── 5. Static server tags  (edit these per server role) ───────
+  #    server.name and server.ip are NOT here — they are auto-set above.
+  resource:
+    attributes:
+
+      # -------------------------------------------------------
+      # OTHER SERVER TAGS  (edit per server)
+      # -------------------------------------------------------
+      - key: server.environment     # prod | staging | uat | dev
+        value: "uat"
+        action: upsert
+
+      - key: server.role            # web | db | app | cache | worker | bastion
+        value: "grafana"
+        action: upsert
+
+      - key: server.team            # owning team for alert routing
+        value: "IT"
+        action: upsert
+
+      - key: server.application     # application this server runs
+        value: "grafana"
+        action: upsert
+
+      - key: custom.project
+        value: "grafana"
+        action: upsert
+
+
+      # ---- Add more custom.* labels below ----
+      # - key: custom.your_label
+      #   value: "your_value"
+      #   action: upsert
+
+  # ── 6. Promote ALL resource attributes → metric labels ────────
+  #    Without this, labels live in resource metadata only and are
+  #    NOT queryable as Prometheus labels in Grafana.
+  transform/promote_labels:
+    metric_statements:
+      - context: datapoint
+        statements:
+          # Auto-detected (populated at runtime)
+          - set(attributes["server_name"],        resource.attributes["server.name"])
+          - set(attributes["server_ip"],          resource.attributes["server.ip"])
+          - set(attributes["server_os"],          resource.attributes["os.description"])
+          # Static tags
+          - set(attributes["server_environment"], resource.attributes["server.environment"])
+          - set(attributes["server_role"],        resource.attributes["server.role"])
+          - set(attributes["server_team"],        resource.attributes["server.team"])
+          - set(attributes["server_application"], resource.attributes["server.application"])
+          # Custom filters
+          - set(attributes["custom_project"],     resource.attributes["custom.project"])
+
+
+# -----------------------------------------------------------------
+# EXPORTERS  –  Grafana Mimir
+# -----------------------------------------------------------------
+exporters:
+  prometheusremotewrite:
+    endpoint: "http://172.16.217.198:9009/api/v1/push"
+
+    headers:
+      X-Scope-OrgID: "anonymous"   # use "anonymous" for single-tenant Mimir
+
+    tls:
+      insecure: true
+
+    resource_to_telemetry_conversion:
+      enabled: true
+
+    external_labels:
+      collector: "otel-host-metrics"
+      scrape_type: "host-metrics"
+
+    remote_write_queue:
+      enabled: true
+      num_consumers: 3
+      queue_size: 5000
+
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 60s
+      max_elapsed_time: 300s
+
+    timeout: 30s
+
+
+# -----------------------------------------------------------------
+# SERVICE PIPELINES
+# -----------------------------------------------------------------
+service:
+  extensions: [health_check, pprof, zpages]
+
+  pipelines:
+    metrics:
+      receivers:
+        - hostmetrics
+      processors:
+        - memory_limiter              # 1st — always
+        - resourcedetection/system    # 2nd — auto-detect hostname & IP
+        - transform/normalize_host_attrs  # 3rd — alias to server.*
+        - resource                    # 4th — static tags
+        - transform/promote_labels    # 5th — push all to metric labels
+        - batch                       # last — batch for export
+      exporters:
+        - prometheusremotewrite
+
+  # telemetry:
+  #   logs:
+  #     level: "info"
+  #     output_paths: ["/var/log/otelcol/otelcol.log"]
+  #     error_output_paths: ["/var/log/otelcol/otelcol-error.log"]
+  #   metrics:
+  #     level: "basic"
+  #     address: "0.0.0.0:8888"

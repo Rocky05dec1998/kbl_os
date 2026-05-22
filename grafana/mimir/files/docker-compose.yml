@@ -12,7 +12,7 @@ version: "3.8"
 
 services:
   mimir:
-    image: grafana/mimir:2.14.3
+    image: grafana/mimir:latest
     container_name: mimir
     restart: unless-stopped
     environment:
@@ -25,7 +25,7 @@ services:
     volumes:
       - ./mimir.yaml:/etc/mimir/mimir.yaml:ro
       - ./runtime.yaml:/etc/mimir/runtime.yaml:ro
-      - mimir-data:/data
+      - /root/grafana_data/mimir:/data
     ports:
       - "9009:8080"
     healthcheck:
@@ -40,5 +40,5 @@ services:
         max-size: "10m"
         max-file: "3"
 
-volumes:
-  mimir-data:
+# volumes:
+#   mimir-data:
