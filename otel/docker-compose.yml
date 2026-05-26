@@ -1,8 +1,7 @@
 version: '3.8'
-
 services:
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.95.0
+    image: otel/opentelemetry-collector-contrib:latest
     container_name: otel-collector
     restart: unless-stopped
     network_mode: host
