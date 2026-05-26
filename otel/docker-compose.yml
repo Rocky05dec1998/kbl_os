@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.95.0
+    container_name: otel-collector
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    environment:
+      - OTEL_RESOURCE_ATTRIBUTES=$OTEL_RESOURCE_ATTRIBUTES
+    volumes:
+      - /:/hostfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./otel-config.yaml:/etc/otelcol-contrib/config.yaml:ro
+    command:
+      - --config=/etc/otelcol-contrib/config.yaml

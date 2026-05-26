@@ -34,7 +34,7 @@ extensions:
 # -----------------------------------------------------------------
 receivers:
   hostmetrics:
-    # root_path: /hostfs   # uncomment if running inside a container
+    root_path: /hostfs   # uncomment if running inside a container
     collection_interval: 30s
 
     scrapers:
