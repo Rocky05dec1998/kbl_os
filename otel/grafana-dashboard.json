@@ -128,7 +128,7 @@
       },
       "targets": [
         {
-          "expr": "sum by (server_name) (system_memory_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"}) / sum by (server_name) (system_memory_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}) * 100",
+          "expr": "sum(system_memory_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"}) / sum(system_memory_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}) * 100",
           "legendFormat": "Memory %",
           "refId": "A"
         }
@@ -147,11 +147,74 @@
               },
               {
                 "color": "#FF9830",
-                "value": 70
+                "value": 60
               },
               {
                 "color": "#F2495C",
-                "value": 85
+                "value": 80
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      }
+    },
+    {
+      "id": 7,
+      "title": "Volume Usage (Max)",
+      "type": "gauge",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "Maximum filesystem utilization across all mounted volumes on the selected servers (root + any data volumes).",
+      "targets": [
+        {
+          "expr": "max((sum by (server_name, device, mountpoint) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"})) / (sum by (server_name, device, mountpoint) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\"})) * 100)",
+          "legendFormat": "Volume %",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#73BF69",
+                "value": null
+              },
+              {
+                "color": "#FF9830",
+                "value": 60
+              },
+              {
+                "color": "#F2495C",
+                "value": 80
               }
             ]
           },
@@ -180,8 +243,8 @@
       "type": "gauge",
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 8,
+        "w": 3,
+        "x": 12,
         "y": 1
       },
       "datasource": {
@@ -242,8 +305,8 @@
       "type": "stat",
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 12,
+        "w": 3,
+        "x": 15,
         "y": 1
       },
       "datasource": {
@@ -303,8 +366,8 @@
       "type": "stat",
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 16,
+        "w": 3,
+        "x": 18,
         "y": 1
       },
       "datasource": {
@@ -355,8 +418,8 @@
       "type": "stat",
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 20,
+        "w": 3,
+        "x": 21,
         "y": 1
       },
       "datasource": {
@@ -906,11 +969,11 @@
               },
               {
                 "color": "#FF9830",
-                "value": 70
+                "value": 60
               },
               {
                 "color": "#F2495C",
-                "value": 85
+                "value": 80
               }
             ]
           },
