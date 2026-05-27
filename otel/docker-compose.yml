@@ -1,16 +1,28 @@
 version: '3.8'
 services:
   otel-collector:
+    # Pin the version: :latest changes Prometheus translation defaults across
+    # releases and silently breaks dashboards. Bump deliberately.
+    # NOTE: verify this tag exists before deploying:
+    #   docker manifest inspect otel/opentelemetry-collector-contrib:0.116.0
     image: otel/opentelemetry-collector-contrib:latest
     container_name: otel-collector
     restart: unless-stopped
     network_mode: host
     pid: host
+
+    # On RHEL 8 with SELinux=Enforcing, the default container label denies
+    # reads under /hostfs (and /proc/* when pid:host). Disable SELinux
+    # confinement for THIS container only — never use `:z` on `/`, which can
+    # recursively relabel the host root filesystem.
+    security_opt:
+      - label=disable
+
     environment:
-      - OTEL_RESOURCE_ATTRIBUTES=$OTEL_RESOURCE_ATTRIBUTES
+      - OTEL_RESOURCE_ATTRIBUTES=${OTEL_RESOURCE_ATTRIBUTES}
     volumes:
       - /:/hostfs:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./otel-config.yaml:/etc/otelcol-contrib/config.yaml:ro
+      # :z is safe here — single small file, app-specific path.
+      - ./otel-config.yaml:/etc/otelcol-contrib/config.yaml:ro,z
     command:
       - --config=/etc/otelcol-contrib/config.yaml

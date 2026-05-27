@@ -66,7 +66,7 @@
       },
       "targets": [
         {
-          "expr": "(1 - sum(rate(system_cpu_time_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"idle\"}[5m])) / sum(rate(system_cpu_time_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[5m]))) * 100",
+          "expr": "(1 - sum(rate(system_cpu_time{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"idle\"}[5m])) / sum(rate(system_cpu_time{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[5m]))) * 100",
           "legendFormat": "CPU %",
           "refId": "A"
         }
@@ -429,7 +429,7 @@
       },
       "targets": [
         {
-          "expr": "sum by (state) (rate(system_cpu_time_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[5m])) / ignoring(state) group_left sum(rate(system_cpu_time_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[5m])) * 100",
+          "expr": "sum by (state) (rate(system_cpu_time{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[5m])) / ignoring(state) group_left sum(rate(system_cpu_time{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[5m])) * 100",
           "legendFormat": "{{state}}",
           "refId": "A"
         }
@@ -695,12 +695,12 @@
       },
       "targets": [
         {
-          "expr": "rate(system_disk_io_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"read\"}[$__rate_interval])",
+          "expr": "rate(system_disk_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"read\"}[$__rate_interval])",
           "legendFormat": "Read — {{device}}",
           "refId": "A"
         },
         {
-          "expr": "rate(system_disk_io_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"write\"}[$__rate_interval]) * -1",
+          "expr": "rate(system_disk_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"write\"}[$__rate_interval]) * -1",
           "legendFormat": "Write — {{device}}",
           "refId": "B"
         }
@@ -755,12 +755,12 @@
       },
       "targets": [
         {
-          "expr": "rate(system_disk_operations_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"read\"}[$__rate_interval])",
+          "expr": "rate(system_disk_operations{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"read\"}[$__rate_interval])",
           "legendFormat": "Read — {{device}}",
           "refId": "A"
         },
         {
-          "expr": "rate(system_disk_operations_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"write\"}[$__rate_interval]) * -1",
+          "expr": "rate(system_disk_operations{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"write\"}[$__rate_interval]) * -1",
           "legendFormat": "Write — {{device}}",
           "refId": "B"
         }
@@ -961,12 +961,12 @@
       },
       "targets": [
         {
-          "expr": "rate(system_network_io_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"receive\"}[$__rate_interval])",
+          "expr": "rate(system_network_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"receive\"}[$__rate_interval])",
           "legendFormat": "Rx — {{device}}",
           "refId": "A"
         },
         {
-          "expr": "rate(system_network_io_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"transmit\"}[$__rate_interval]) * -1",
+          "expr": "rate(system_network_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"transmit\"}[$__rate_interval]) * -1",
           "legendFormat": "Tx — {{device}}",
           "refId": "B"
         }
@@ -1021,12 +1021,12 @@
       },
       "targets": [
         {
-          "expr": "rate(system_network_packets_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"receive\"}[$__rate_interval])",
+          "expr": "rate(system_network_packets{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"receive\"}[$__rate_interval])",
           "legendFormat": "Rx — {{device}}",
           "refId": "A"
         },
         {
-          "expr": "rate(system_network_packets_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"transmit\"}[$__rate_interval]) * -1",
+          "expr": "rate(system_network_packets{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"transmit\"}[$__rate_interval]) * -1",
           "legendFormat": "Tx — {{device}}",
           "refId": "B"
         }
@@ -1081,7 +1081,7 @@
       },
       "targets": [
         {
-          "expr": "rate(system_network_errors_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
+          "expr": "rate(system_network_errors{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
           "legendFormat": "{{direction}} — {{device}}",
           "refId": "A"
         }
@@ -1136,7 +1136,7 @@
       },
       "targets": [
         {
-          "expr": "rate(system_network_dropped_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
+          "expr": "rate(system_network_dropped{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
           "legendFormat": "{{direction}} — {{device}}",
           "refId": "A"
         }
@@ -1261,7 +1261,7 @@
       },
       "targets": [
         {
-          "expr": "rate(system_processes_created_total{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
+          "expr": "rate(system_processes_created{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
           "legendFormat": "processes/s",
           "refId": "A"
         }
@@ -1334,7 +1334,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(system_cpu_time_total, server_name)",
+        "definition": "label_values(system_cpu_time, server_name)",
         "hide": 0,
         "includeAll": true,
         "label": "Server",
@@ -1342,7 +1342,7 @@
         "name": "server_name",
         "options": [],
         "query": {
-          "query": "label_values(system_cpu_time_total, server_name)",
+          "query": "label_values(system_cpu_time, server_name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -1357,7 +1357,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(system_cpu_time_total{server_name=~\"$server_name\"}, server_environment)",
+        "definition": "label_values(system_cpu_time{server_name=~\"$server_name\"}, server_environment)",
         "hide": 0,
         "includeAll": true,
         "label": "Environment",
@@ -1365,7 +1365,7 @@
         "name": "server_environment",
         "options": [],
         "query": {
-          "query": "label_values(system_cpu_time_total{server_name=~\"$server_name\"}, server_environment)",
+          "query": "label_values(system_cpu_time{server_name=~\"$server_name\"}, server_environment)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -1380,7 +1380,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(system_cpu_time_total{server_name=~\"$server_name\"}, server_role)",
+        "definition": "label_values(system_cpu_time{server_name=~\"$server_name\"}, server_role)",
         "hide": 0,
         "includeAll": true,
         "label": "Role",
@@ -1388,7 +1388,7 @@
         "name": "server_role",
         "options": [],
         "query": {
-          "query": "label_values(system_cpu_time_total{server_name=~\"$server_name\"}, server_role)",
+          "query": "label_values(system_cpu_time{server_name=~\"$server_name\"}, server_role)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -1403,7 +1403,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(system_cpu_time_total{server_name=~\"$server_name\"}, server_team)",
+        "definition": "label_values(system_cpu_time{server_name=~\"$server_name\"}, server_team)",
         "hide": 0,
         "includeAll": true,
         "label": "Team",
@@ -1411,7 +1411,7 @@
         "name": "server_team",
         "options": [],
         "query": {
-          "query": "label_values(system_cpu_time_total{server_name=~\"$server_name\"}, server_team)",
+          "query": "label_values(system_cpu_time{server_name=~\"$server_name\"}, server_team)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,

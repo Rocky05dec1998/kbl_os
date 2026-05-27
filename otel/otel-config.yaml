@@ -220,16 +220,16 @@ processors:
   # ── 4. Normalise / alias auto-detected attributes ─────────────
   #    Map OTel standard names → our server.* naming convention
   #    so downstream labels are consistent across all servers.
+  #    OTTL statements MUST be on a single line — multi-line "where" clauses
+  #    fail to parse on some collector builds.
   transform/normalize_host_attrs:
     metric_statements:
       - context: resource
         statements:
           # Alias host.name → server.name (keep both)
-          - set(attributes["server.name"], attributes["host.name"])
-              where attributes["host.name"] != nil
-          # Alias server.ip from env-injected value (set by wrapper script)
-          # The wrapper exports: OTEL_RESOURCE_ATTRIBUTES=server.ip=<auto>
-          # so it arrives as a resource attribute directly.
+          - set(attributes["server.name"], attributes["host.name"]) where attributes["host.name"] != nil
+          # server.ip is injected directly as a resource attribute by the
+          # wrapper script via OTEL_RESOURCE_ATTRIBUTES — no alias needed.
 
   # ── 5. Static server tags  (edit these per server role) ───────
   #    server.name and server.ip are NOT here — they are auto-set above.
@@ -291,6 +291,13 @@ processors:
 exporters:
   prometheusremotewrite:
     endpoint: "http://172.16.217.198:9009/api/v1/push"
+
+    # CRITICAL: With the default (true), recent collector builds append unit
+    # and type suffixes — system.cpu.time becomes system_cpu_time_seconds_total,
+    # system.memory.usage becomes system_memory_usage_bytes, etc. The dashboard
+    # queries the un-suffixed OTel-style names, so we disable suffixing here.
+    # If you change this, the dashboard queries must change to match.
+    add_metric_suffixes: false
 
     headers:
       X-Scope-OrgID: "anonymous"   # use "anonymous" for single-tenant Mimir
