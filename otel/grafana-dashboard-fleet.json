@@ -202,7 +202,7 @@
       "description": "Highest filesystem utilization across all mounted volumes (root + data). Turns orange ≥60%, red ≥80%.",
       "targets": [
         {
-          "expr": "max by (server_name) ((sum by (server_name, device, mountpoint) (system_filesystem_usage{server_name=\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"})) / (sum by (server_name, device, mountpoint) (system_filesystem_usage{server_name=\"$server_name\", server_environment=~\"$server_environment\"})) * 100)",
+          "expr": "(sum by (server_name) (system_filesystem_usage{server_name=\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"})) / (sum by (server_name) (system_filesystem_usage{server_name=\"$server_name\", server_environment=~\"$server_environment\"})) * 100",
           "legendFormat": "Volume %",
           "refId": "A"
         }

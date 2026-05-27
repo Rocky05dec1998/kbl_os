@@ -191,7 +191,7 @@
       "description": "Maximum filesystem utilization across all mounted volumes on the selected servers (root + any data volumes).",
       "targets": [
         {
-          "expr": "max((sum by (server_name, device, mountpoint) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"})) / (sum by (server_name, device, mountpoint) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\"})) * 100)",
+          "expr": "(sum by (server_name) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"})) / (sum by (server_name) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\"})) * 100",
           "legendFormat": "Volume %",
           "refId": "A"
         }
