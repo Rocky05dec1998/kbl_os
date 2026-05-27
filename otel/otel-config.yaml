@@ -44,8 +44,6 @@ receivers:
         metrics:
           system.cpu.time:
             enabled: true
-          system.cpu.utilization:
-            enabled: true
 
       # ── Load Average ───────────────────────────────────────────
       load:
@@ -62,15 +60,11 @@ receivers:
         metrics:
           system.memory.usage:
             enabled: true
-          system.memory.utilization:
-            enabled: true
 
       # ── Swap ───────────────────────────────────────────────────
       paging:
         metrics:
           system.paging.usage:
-            enabled: true
-          system.paging.utilization:
             enabled: true
           system.paging.faults:
             enabled: true
@@ -100,8 +94,6 @@ receivers:
       filesystem:
         metrics:
           system.filesystem.usage:
-            enabled: true
-          system.filesystem.utilization:
             enabled: true
           system.filesystem.inodes.usage:
             enabled: true
