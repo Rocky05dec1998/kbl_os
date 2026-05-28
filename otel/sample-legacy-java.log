@@ -1,21 +1,21 @@
-2023-10-24 10:15:31,029 INFO  [http-nio-8080-exec-2] com.example.UserService - Sending email notification to admin@example.com
-2023-10-24 10:15:32,727 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
-2023-10-24 10:15:33,496 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
-2023-10-24 10:15:34,943 INFO  [main] com.example.DatabaseConnection - Email sent successfully.
-2023-10-24 10:15:36,931 INFO  [http-nio-8080-exec-2] com.example.UserService - Cleanup completed successfully.
-2023-10-24 10:15:37,451 DEBUG [main] com.example.Application - Running scheduled cleanup...
-2023-10-24 10:15:38,714 WARN  [Timer-0] com.example.UserService - Email sent successfully.
-2023-10-24 10:15:39,890 INFO  [Timer-0] com.example.OrderService - Successfully processed 500 records.
-2023-10-24 10:15:41,375 WARN  [Timer-0] org.springframework.web.servlet.DispatcherServlet - Incoming HTTP GET request to /api/users/123
-2023-10-24 10:15:43,332 INFO  [kafka-consumer-1] com.example.Application - Successfully processed 500 records.
-2023-10-24 10:15:45,077 INFO  [http-nio-8080-exec-1] com.example.OrderService - Connection established.
-2023-10-24 10:15:45,270 WARN  [main] com.example.OrderService - Running scheduled cleanup...
-2023-10-24 10:15:46,933 INFO  [main] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
-2023-10-24 10:15:47,800 INFO  [http-nio-8080-exec-2] com.example.PaymentProcessor - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:15:49,128 DEBUG [Timer-0] com.example.UserService - Application started successfully.
-2023-10-24 10:15:50,364 WARN  [http-nio-8080-exec-1] com.example.DatabaseConnection - Connection established.
-2023-10-24 10:15:51,655 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - Sending email notification to admin@example.com
-2023-10-24 10:15:53,440 ERROR [main] com.example.OrderService - An error occurred during processing.
+2026-05-28 18:34:05,694 INFO  [http-nio-8080-exec-2] com.example.UserService - Sending email notification to admin@example.com
+2026-05-28 18:34:06,194 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
+2026-05-28 18:34:06,694 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
+2026-05-28 18:34:07,194 INFO  [main] com.example.DatabaseConnection - Email sent successfully.
+2026-05-28 18:34:07,694 INFO  [http-nio-8080-exec-2] com.example.UserService - Cleanup completed successfully.
+2026-05-28 18:34:08,194 DEBUG [main] com.example.Application - Running scheduled cleanup...
+2026-05-28 18:34:08,694 WARN  [Timer-0] com.example.UserService - Email sent successfully.
+2026-05-28 18:34:09,194 INFO  [Timer-0] com.example.OrderService - Successfully processed 500 records.
+2026-05-28 18:34:09,694 WARN  [Timer-0] org.springframework.web.servlet.DispatcherServlet - Incoming HTTP GET request to /api/users/123
+2026-05-28 18:34:10,194 INFO  [kafka-consumer-1] com.example.Application - Successfully processed 500 records.
+2026-05-28 18:34:10,694 INFO  [http-nio-8080-exec-1] com.example.OrderService - Connection established.
+2026-05-28 18:34:11,194 WARN  [main] com.example.OrderService - Running scheduled cleanup...
+2026-05-28 18:34:11,694 INFO  [main] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
+2026-05-28 18:34:12,194 INFO  [http-nio-8080-exec-2] com.example.PaymentProcessor - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:34:12,694 DEBUG [Timer-0] com.example.UserService - Application started successfully.
+2026-05-28 18:34:13,194 WARN  [http-nio-8080-exec-1] com.example.DatabaseConnection - Connection established.
+2026-05-28 18:34:13,694 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - Sending email notification to admin@example.com
+2026-05-28 18:34:14,194 ERROR [main] com.example.OrderService - An error occurred during processing.
 java.lang.NullPointerException: Cannot invoke "String.length()" because "shippingAddress" is null
         at com.example.OrderService.validateOrder(OrderService.java:45)
         at com.example.OrderService.process(OrderService.java:88)
@@ -23,13 +23,13 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "shippin
         at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
         at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
         at java.base/java.lang.Thread.run(Thread.java:829)
-2023-10-24 10:15:54,349 INFO  [Timer-0] com.example.OrderService - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:15:56,005 INFO  [kafka-consumer-1] com.example.OrderService - Kafka consumer rebalancing.
-2023-10-24 10:15:56,561 INFO  [Timer-0] com.example.UserService - Email sent successfully.
-2023-10-24 10:15:56,657 INFO  [http-nio-8080-exec-2] com.example.UserService - Kafka consumer rebalancing.
-2023-10-24 10:15:57,014 INFO  [kafka-consumer-1] com.example.OrderService - Running scheduled cleanup...
-2023-10-24 10:15:58,387 INFO  [main] com.example.UserService - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:16:00,289 ERROR [Timer-0] com.example.OrderService - An error occurred during processing.
+2026-05-28 18:34:14,694 INFO  [Timer-0] com.example.OrderService - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:34:15,194 INFO  [kafka-consumer-1] com.example.OrderService - Kafka consumer rebalancing.
+2026-05-28 18:34:15,694 INFO  [Timer-0] com.example.UserService - Email sent successfully.
+2026-05-28 18:34:16,194 INFO  [http-nio-8080-exec-2] com.example.UserService - Kafka consumer rebalancing.
+2026-05-28 18:34:16,694 INFO  [kafka-consumer-1] com.example.OrderService - Running scheduled cleanup...
+2026-05-28 18:34:17,194 INFO  [main] com.example.UserService - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:34:17,694 ERROR [Timer-0] com.example.OrderService - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -38,9 +38,9 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:16:01,844 DEBUG [main] com.example.Application - Application started successfully.
-2023-10-24 10:16:03,678 INFO  [kafka-consumer-1] com.example.OrderService - Kafka consumer rebalancing.
-2023-10-24 10:16:04,758 ERROR [http-nio-8080-exec-3] com.example.Application - An error occurred during processing.
+2026-05-28 18:34:18,194 DEBUG [main] com.example.Application - Application started successfully.
+2026-05-28 18:34:18,694 INFO  [kafka-consumer-1] com.example.OrderService - Kafka consumer rebalancing.
+2026-05-28 18:34:19,194 ERROR [http-nio-8080-exec-3] com.example.Application - An error occurred during processing.
 java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.FileDispatcherImpl.write0(Native Method)
         at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:47)
@@ -49,14 +49,14 @@ java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:471)
         at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:138)
         at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1286)
-2023-10-24 10:16:04,974 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Application started successfully.
-2023-10-24 10:16:05,734 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Commit offset successful.
-2023-10-24 10:16:06,295 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Successfully processed 500 records.
-2023-10-24 10:16:06,883 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Commit offset successful.
-2023-10-24 10:16:07,530 WARN  [http-nio-8080-exec-2] com.example.PaymentProcessor - Sending email notification to admin@example.com
-2023-10-24 10:16:09,090 DEBUG [http-nio-8080-exec-1] com.example.PaymentProcessor - Processing batch job #8172.
-2023-10-24 10:16:09,427 WARN  [http-nio-8080-exec-2] com.example.PaymentProcessor - Returning HTTP 200 OK for /api/users/123
-2023-10-24 10:16:10,011 ERROR [kafka-consumer-1] com.example.UserService - An error occurred during processing.
+2026-05-28 18:34:19,694 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Application started successfully.
+2026-05-28 18:34:20,194 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Commit offset successful.
+2026-05-28 18:34:20,694 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Successfully processed 500 records.
+2026-05-28 18:34:21,194 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Commit offset successful.
+2026-05-28 18:34:21,694 WARN  [http-nio-8080-exec-2] com.example.PaymentProcessor - Sending email notification to admin@example.com
+2026-05-28 18:34:22,194 DEBUG [http-nio-8080-exec-1] com.example.PaymentProcessor - Processing batch job #8172.
+2026-05-28 18:34:22,694 WARN  [http-nio-8080-exec-2] com.example.PaymentProcessor - Returning HTTP 200 OK for /api/users/123
+2026-05-28 18:34:23,194 ERROR [kafka-consumer-1] com.example.UserService - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -65,7 +65,7 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:16:10,694 ERROR [http-nio-8080-exec-2] com.example.OrderService - An error occurred during processing.
+2026-05-28 18:34:23,694 ERROR [http-nio-8080-exec-2] com.example.OrderService - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -74,11 +74,11 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:16:11,513 INFO  [kafka-consumer-1] com.example.PaymentProcessor - Application started successfully.
-2023-10-24 10:16:12,755 INFO  [kafka-consumer-1] com.example.Application - Processing batch job #8172.
-2023-10-24 10:16:12,978 INFO  [http-nio-8080-exec-2] com.example.Application - Kafka consumer rebalancing.
-2023-10-24 10:16:14,583 DEBUG [http-nio-8080-exec-2] com.example.PaymentProcessor - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:16:15,756 ERROR [Timer-0] com.example.Application - An error occurred during processing.
+2026-05-28 18:34:24,194 INFO  [kafka-consumer-1] com.example.PaymentProcessor - Application started successfully.
+2026-05-28 18:34:24,694 INFO  [kafka-consumer-1] com.example.Application - Processing batch job #8172.
+2026-05-28 18:34:25,194 INFO  [http-nio-8080-exec-2] com.example.Application - Kafka consumer rebalancing.
+2026-05-28 18:34:25,694 DEBUG [http-nio-8080-exec-2] com.example.PaymentProcessor - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:34:26,194 ERROR [Timer-0] com.example.Application - An error occurred during processing.
 java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.FileDispatcherImpl.write0(Native Method)
         at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:47)
@@ -87,11 +87,11 @@ java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:471)
         at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:138)
         at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1286)
-2023-10-24 10:16:16,638 WARN  [http-nio-8080-exec-1] com.example.DatabaseConnection - Email sent successfully.
-2023-10-24 10:16:17,828 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Email sent successfully.
-2023-10-24 10:16:19,535 DEBUG [main] com.example.OrderService - Returning HTTP 200 OK for /api/users/123
-2023-10-24 10:16:21,472 INFO  [http-nio-8080-exec-2] com.example.Application - Commit offset successful.
-2023-10-24 10:16:22,293 ERROR [http-nio-8080-exec-2] com.example.UserService - An error occurred during processing.
+2026-05-28 18:34:26,694 WARN  [http-nio-8080-exec-1] com.example.DatabaseConnection - Email sent successfully.
+2026-05-28 18:34:27,194 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Email sent successfully.
+2026-05-28 18:34:27,694 DEBUG [main] com.example.OrderService - Returning HTTP 200 OK for /api/users/123
+2026-05-28 18:34:28,194 INFO  [http-nio-8080-exec-2] com.example.Application - Commit offset successful.
+2026-05-28 18:34:28,694 ERROR [http-nio-8080-exec-2] com.example.UserService - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -100,18 +100,18 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:16:23,856 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Incoming HTTP GET request to /api/users/123
-2023-10-24 10:16:25,029 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Connection established.
-2023-10-24 10:16:25,662 DEBUG [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
-2023-10-24 10:16:26,220 DEBUG [http-nio-8080-exec-1] com.example.UserService - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:16:27,614 DEBUG [kafka-consumer-1] com.example.PaymentProcessor - Email sent successfully.
-2023-10-24 10:16:29,138 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Application started successfully.
-2023-10-24 10:16:30,333 INFO  [Timer-0] com.example.PaymentProcessor - Commit offset successful.
-2023-10-24 10:16:31,212 INFO  [http-nio-8080-exec-1] com.example.PaymentProcessor - Successfully processed 500 records.
-2023-10-24 10:16:32,474 DEBUG [Timer-0] com.example.UserService - Returning HTTP 200 OK for /api/users/123
-2023-10-24 10:16:32,829 DEBUG [main] com.example.DatabaseConnection - Successfully processed 500 records.
-2023-10-24 10:16:33,120 INFO  [main] com.example.OrderService - Successfully processed 500 records.
-2023-10-24 10:16:34,342 ERROR [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
+2026-05-28 18:34:29,194 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Incoming HTTP GET request to /api/users/123
+2026-05-28 18:34:29,694 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Connection established.
+2026-05-28 18:34:30,194 DEBUG [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
+2026-05-28 18:34:30,694 DEBUG [http-nio-8080-exec-1] com.example.UserService - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:34:31,194 DEBUG [kafka-consumer-1] com.example.PaymentProcessor - Email sent successfully.
+2026-05-28 18:34:31,694 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Application started successfully.
+2026-05-28 18:34:32,194 INFO  [Timer-0] com.example.PaymentProcessor - Commit offset successful.
+2026-05-28 18:34:32,694 INFO  [http-nio-8080-exec-1] com.example.PaymentProcessor - Successfully processed 500 records.
+2026-05-28 18:34:33,194 DEBUG [Timer-0] com.example.UserService - Returning HTTP 200 OK for /api/users/123
+2026-05-28 18:34:33,694 DEBUG [main] com.example.DatabaseConnection - Successfully processed 500 records.
+2026-05-28 18:34:34,194 INFO  [main] com.example.OrderService - Successfully processed 500 records.
+2026-05-28 18:34:34,694 ERROR [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -120,16 +120,16 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:16:36,133 DEBUG [http-nio-8080-exec-2] com.example.UserService - Cleanup completed successfully.
-2023-10-24 10:16:37,411 DEBUG [kafka-consumer-1] com.example.OrderService - Connection established.
-2023-10-24 10:16:38,440 INFO  [main] com.example.Application - Commit offset successful.
-2023-10-24 10:16:39,187 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Returning HTTP 200 OK for /api/users/123
-2023-10-24 10:16:40,566 INFO  [main] com.example.OrderService - Sending email notification to admin@example.com
-2023-10-24 10:16:42,098 INFO  [Timer-0] com.example.Application - Successfully processed 500 records.
-2023-10-24 10:16:42,915 DEBUG [http-nio-8080-exec-3] com.example.Application - Processing batch job #8172.
-2023-10-24 10:16:44,548 DEBUG [http-nio-8080-exec-2] com.example.UserService - Incoming HTTP GET request to /api/users/123
-2023-10-24 10:16:44,761 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Kafka consumer rebalancing.
-2023-10-24 10:16:45,643 ERROR [http-nio-8080-exec-3] com.example.OrderService - An error occurred during processing.
+2026-05-28 18:34:35,194 DEBUG [http-nio-8080-exec-2] com.example.UserService - Cleanup completed successfully.
+2026-05-28 18:34:35,694 DEBUG [kafka-consumer-1] com.example.OrderService - Connection established.
+2026-05-28 18:34:36,194 INFO  [main] com.example.Application - Commit offset successful.
+2026-05-28 18:34:36,694 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Returning HTTP 200 OK for /api/users/123
+2026-05-28 18:34:37,194 INFO  [main] com.example.OrderService - Sending email notification to admin@example.com
+2026-05-28 18:34:37,694 INFO  [Timer-0] com.example.Application - Successfully processed 500 records.
+2026-05-28 18:34:38,194 DEBUG [http-nio-8080-exec-3] com.example.Application - Processing batch job #8172.
+2026-05-28 18:34:38,694 DEBUG [http-nio-8080-exec-2] com.example.UserService - Incoming HTTP GET request to /api/users/123
+2026-05-28 18:34:39,194 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Kafka consumer rebalancing.
+2026-05-28 18:34:39,694 ERROR [http-nio-8080-exec-3] com.example.OrderService - An error occurred during processing.
 java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.FileDispatcherImpl.write0(Native Method)
         at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:47)
@@ -138,12 +138,12 @@ java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:471)
         at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:138)
         at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1286)
-2023-10-24 10:16:46,424 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - Successfully processed 500 records.
-2023-10-24 10:16:47,112 INFO  [http-nio-8080-exec-2] com.example.UserService - Cleanup completed successfully.
-2023-10-24 10:16:47,658 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Kafka consumer rebalancing.
-2023-10-24 10:16:47,688 INFO  [http-nio-8080-exec-3] com.example.UserService - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:16:49,508 INFO  [main] com.example.OrderService - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:16:50,323 ERROR [http-nio-8080-exec-3] com.example.UserService - An error occurred during processing.
+2026-05-28 18:34:40,194 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - Successfully processed 500 records.
+2026-05-28 18:34:40,694 INFO  [http-nio-8080-exec-2] com.example.UserService - Cleanup completed successfully.
+2026-05-28 18:34:41,194 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Kafka consumer rebalancing.
+2026-05-28 18:34:41,694 INFO  [http-nio-8080-exec-3] com.example.UserService - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:34:42,194 INFO  [main] com.example.OrderService - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:34:42,694 ERROR [http-nio-8080-exec-3] com.example.UserService - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -152,19 +152,19 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:16:52,143 DEBUG [main] org.springframework.web.servlet.DispatcherServlet - Incoming HTTP GET request to /api/users/123
-2023-10-24 10:16:54,018 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:16:55,179 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - Commit offset successful.
-2023-10-24 10:16:55,386 INFO  [main] com.example.UserService - Commit offset successful.
-2023-10-24 10:16:56,688 INFO  [Timer-0] com.example.PaymentProcessor - Commit offset successful.
-2023-10-24 10:16:58,496 INFO  [main] com.example.DatabaseConnection - Running scheduled cleanup...
-2023-10-24 10:16:59,354 INFO  [kafka-consumer-1] com.example.PaymentProcessor - Kafka consumer rebalancing.
-2023-10-24 10:17:01,079 WARN  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Processing batch job #8172.
-2023-10-24 10:17:02,095 INFO  [kafka-consumer-1] com.example.OrderService - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:17:03,021 INFO  [http-nio-8080-exec-1] com.example.UserService - Returning HTTP 200 OK for /api/users/123
-2023-10-24 10:17:04,816 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - Kafka consumer rebalancing.
-2023-10-24 10:17:05,460 INFO  [http-nio-8080-exec-3] com.example.Application - Processing batch job #8172.
-2023-10-24 10:17:05,925 ERROR [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
+2026-05-28 18:34:43,194 DEBUG [main] org.springframework.web.servlet.DispatcherServlet - Incoming HTTP GET request to /api/users/123
+2026-05-28 18:34:43,694 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:34:44,194 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - Commit offset successful.
+2026-05-28 18:34:44,694 INFO  [main] com.example.UserService - Commit offset successful.
+2026-05-28 18:34:45,194 INFO  [Timer-0] com.example.PaymentProcessor - Commit offset successful.
+2026-05-28 18:34:45,694 INFO  [main] com.example.DatabaseConnection - Running scheduled cleanup...
+2026-05-28 18:34:46,194 INFO  [kafka-consumer-1] com.example.PaymentProcessor - Kafka consumer rebalancing.
+2026-05-28 18:34:46,694 WARN  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Processing batch job #8172.
+2026-05-28 18:34:47,194 INFO  [kafka-consumer-1] com.example.OrderService - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:34:47,694 INFO  [http-nio-8080-exec-1] com.example.UserService - Returning HTTP 200 OK for /api/users/123
+2026-05-28 18:34:48,194 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - Kafka consumer rebalancing.
+2026-05-28 18:34:48,694 INFO  [http-nio-8080-exec-3] com.example.Application - Processing batch job #8172.
+2026-05-28 18:34:49,194 ERROR [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
 java.lang.NullPointerException: Cannot invoke "String.length()" because "shippingAddress" is null
         at com.example.OrderService.validateOrder(OrderService.java:45)
         at com.example.OrderService.process(OrderService.java:88)
@@ -172,17 +172,17 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "shippin
         at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
         at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
         at java.base/java.lang.Thread.run(Thread.java:829)
-2023-10-24 10:17:05,999 DEBUG [Timer-0] com.example.DatabaseConnection - Sending email notification to admin@example.com
-2023-10-24 10:17:06,162 INFO  [Timer-0] com.example.DatabaseConnection - Connection established.
-2023-10-24 10:17:07,436 WARN  [http-nio-8080-exec-3] com.example.Application - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:17:08,080 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:17:09,455 WARN  [kafka-consumer-1] com.example.DatabaseConnection - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:17:09,793 DEBUG [http-nio-8080-exec-1] com.example.UserService - Running scheduled cleanup...
-2023-10-24 10:17:11,614 INFO  [http-nio-8080-exec-3] com.example.OrderService - Processing batch job #8172.
-2023-10-24 10:17:12,682 DEBUG [Timer-0] com.example.DatabaseConnection - Kafka consumer rebalancing.
-2023-10-24 10:17:13,719 DEBUG [Timer-0] com.example.PaymentProcessor - Cleanup completed successfully.
-2023-10-24 10:17:14,829 INFO  [Timer-0] com.example.OrderService - Email sent successfully.
-2023-10-24 10:17:16,319 ERROR [http-nio-8080-exec-1] com.example.Application - An error occurred during processing.
+2026-05-28 18:34:49,694 DEBUG [Timer-0] com.example.DatabaseConnection - Sending email notification to admin@example.com
+2026-05-28 18:34:50,194 INFO  [Timer-0] com.example.DatabaseConnection - Connection established.
+2026-05-28 18:34:50,694 WARN  [http-nio-8080-exec-3] com.example.Application - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:34:51,194 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:34:51,694 WARN  [kafka-consumer-1] com.example.DatabaseConnection - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:34:52,194 DEBUG [http-nio-8080-exec-1] com.example.UserService - Running scheduled cleanup...
+2026-05-28 18:34:52,694 INFO  [http-nio-8080-exec-3] com.example.OrderService - Processing batch job #8172.
+2026-05-28 18:34:53,194 DEBUG [Timer-0] com.example.DatabaseConnection - Kafka consumer rebalancing.
+2026-05-28 18:34:53,694 DEBUG [Timer-0] com.example.PaymentProcessor - Cleanup completed successfully.
+2026-05-28 18:34:54,194 INFO  [Timer-0] com.example.OrderService - Email sent successfully.
+2026-05-28 18:34:54,694 ERROR [http-nio-8080-exec-1] com.example.Application - An error occurred during processing.
 java.lang.NullPointerException: Cannot invoke "String.length()" because "shippingAddress" is null
         at com.example.OrderService.validateOrder(OrderService.java:45)
         at com.example.OrderService.process(OrderService.java:88)
@@ -190,10 +190,10 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "shippin
         at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
         at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
         at java.base/java.lang.Thread.run(Thread.java:829)
-2023-10-24 10:17:18,114 DEBUG [http-nio-8080-exec-3] com.example.PaymentProcessor - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:17:18,635 INFO  [http-nio-8080-exec-2] com.example.OrderService - Cleanup completed successfully.
-2023-10-24 10:17:18,704 INFO  [http-nio-8080-exec-1] com.example.DatabaseConnection - Email sent successfully.
-2023-10-24 10:17:19,583 ERROR [main] com.example.OrderService - An error occurred during processing.
+2026-05-28 18:34:55,194 DEBUG [http-nio-8080-exec-3] com.example.PaymentProcessor - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:34:55,694 INFO  [http-nio-8080-exec-2] com.example.OrderService - Cleanup completed successfully.
+2026-05-28 18:34:56,194 INFO  [http-nio-8080-exec-1] com.example.DatabaseConnection - Email sent successfully.
+2026-05-28 18:34:56,694 ERROR [main] com.example.OrderService - An error occurred during processing.
 java.lang.NullPointerException: Cannot invoke "String.length()" because "shippingAddress" is null
         at com.example.OrderService.validateOrder(OrderService.java:45)
         at com.example.OrderService.process(OrderService.java:88)
@@ -201,19 +201,19 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "shippin
         at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
         at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
         at java.base/java.lang.Thread.run(Thread.java:829)
-2023-10-24 10:17:20,239 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Email sent successfully.
-2023-10-24 10:17:20,920 DEBUG [http-nio-8080-exec-2] com.example.OrderService - Sending email notification to admin@example.com
-2023-10-24 10:17:21,648 INFO  [kafka-consumer-1] com.example.PaymentProcessor - Returning HTTP 200 OK for /api/users/123
-2023-10-24 10:17:21,688 INFO  [main] com.example.PaymentProcessor - Cleanup completed successfully.
-2023-10-24 10:17:22,891 WARN  [http-nio-8080-exec-3] com.example.UserService - Email sent successfully.
-2023-10-24 10:17:24,244 INFO  [Timer-0] com.example.OrderService - Sending email notification to admin@example.com
-2023-10-24 10:17:25,969 INFO  [http-nio-8080-exec-1] com.example.DatabaseConnection - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:17:26,302 INFO  [http-nio-8080-exec-2] com.example.UserService - Email sent successfully.
-2023-10-24 10:17:26,321 DEBUG [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Sending email notification to admin@example.com
-2023-10-24 10:17:27,149 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:17:27,711 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
-2023-10-24 10:17:27,807 INFO  [http-nio-8080-exec-1] com.example.DatabaseConnection - Application started successfully.
-2023-10-24 10:17:29,571 ERROR [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
+2026-05-28 18:34:57,194 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Email sent successfully.
+2026-05-28 18:34:57,694 DEBUG [http-nio-8080-exec-2] com.example.OrderService - Sending email notification to admin@example.com
+2026-05-28 18:34:58,194 INFO  [kafka-consumer-1] com.example.PaymentProcessor - Returning HTTP 200 OK for /api/users/123
+2026-05-28 18:34:58,694 INFO  [main] com.example.PaymentProcessor - Cleanup completed successfully.
+2026-05-28 18:34:59,194 WARN  [http-nio-8080-exec-3] com.example.UserService - Email sent successfully.
+2026-05-28 18:34:59,694 INFO  [Timer-0] com.example.OrderService - Sending email notification to admin@example.com
+2026-05-28 18:35:00,194 INFO  [http-nio-8080-exec-1] com.example.DatabaseConnection - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:35:00,694 INFO  [http-nio-8080-exec-2] com.example.UserService - Email sent successfully.
+2026-05-28 18:35:01,194 DEBUG [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Sending email notification to admin@example.com
+2026-05-28 18:35:01,694 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:35:02,194 INFO  [kafka-consumer-1] org.springframework.web.servlet.DispatcherServlet - Running scheduled cleanup...
+2026-05-28 18:35:02,694 INFO  [http-nio-8080-exec-1] com.example.DatabaseConnection - Application started successfully.
+2026-05-28 18:35:03,194 ERROR [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
 java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.FileDispatcherImpl.write0(Native Method)
         at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:47)
@@ -222,8 +222,8 @@ java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:471)
         at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:138)
         at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1286)
-2023-10-24 10:17:30,881 INFO  [main] org.springframework.web.servlet.DispatcherServlet - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:17:32,068 ERROR [http-nio-8080-exec-1] com.example.OrderService - An error occurred during processing.
+2026-05-28 18:35:03,694 INFO  [main] org.springframework.web.servlet.DispatcherServlet - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:35:04,194 ERROR [http-nio-8080-exec-1] com.example.OrderService - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -232,7 +232,7 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:17:32,167 ERROR [http-nio-8080-exec-2] com.example.UserService - An error occurred during processing.
+2026-05-28 18:35:04,694 ERROR [http-nio-8080-exec-2] com.example.UserService - An error occurred during processing.
 java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.FileDispatcherImpl.write0(Native Method)
         at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:47)
@@ -241,11 +241,11 @@ java.io.IOException: Broken pipe
         at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:471)
         at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:138)
         at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1286)
-2023-10-24 10:17:34,121 DEBUG [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - Successfully processed 500 records.
-2023-10-24 10:17:34,262 DEBUG [main] com.example.OrderService - Running scheduled cleanup...
-2023-10-24 10:17:34,644 DEBUG [kafka-consumer-1] com.example.UserService - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
-2023-10-24 10:17:34,888 INFO  [http-nio-8080-exec-2] com.example.OrderService - Email sent successfully.
-2023-10-24 10:17:36,313 ERROR [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
+2026-05-28 18:35:05,194 DEBUG [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet - Successfully processed 500 records.
+2026-05-28 18:35:05,694 DEBUG [main] com.example.OrderService - Running scheduled cleanup...
+2026-05-28 18:35:06,194 DEBUG [kafka-consumer-1] com.example.UserService - Attempting to connect to database at jdbc:mysql://localhost:3306/mydb
+2026-05-28 18:35:06,694 INFO  [http-nio-8080-exec-2] com.example.OrderService - Email sent successfully.
+2026-05-28 18:35:07,194 ERROR [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - An error occurred during processing.
 java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
         at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
         at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
@@ -254,29 +254,29 @@ java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not avail
         at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
         at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:38)
         at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:108)
-2023-10-24 10:17:38,097 INFO  [main] com.example.UserService - Running scheduled cleanup...
-2023-10-24 10:17:38,312 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:17:40,132 DEBUG [main] org.springframework.web.servlet.DispatcherServlet - Sending email notification to admin@example.com
-2023-10-24 10:17:40,151 INFO  [http-nio-8080-exec-2] com.example.Application - Incoming HTTP GET request to /api/users/123
-2023-10-24 10:17:41,871 INFO  [http-nio-8080-exec-2] com.example.DatabaseConnection - Successfully processed 500 records.
-2023-10-24 10:17:42,687 INFO  [Timer-0] com.example.UserService - Application started successfully.
-2023-10-24 10:17:42,994 WARN  [Timer-0] com.example.Application - Connection established.
-2023-10-24 10:17:44,816 DEBUG [http-nio-8080-exec-3] com.example.PaymentProcessor - Kafka consumer rebalancing.
-2023-10-24 10:17:45,875 INFO  [http-nio-8080-exec-3] com.example.UserService - Sending email notification to admin@example.com
-2023-10-24 10:17:47,307 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Running scheduled cleanup...
-2023-10-24 10:17:48,336 INFO  [Timer-0] com.example.UserService - Processing batch job #8172.
-2023-10-24 10:17:49,221 INFO  [Timer-0] com.example.UserService - User profile 'john_doe' not found in cache, fetching from DB.
-2023-10-24 10:17:49,429 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - Cleanup completed successfully.
-2023-10-24 10:17:49,939 INFO  [http-nio-8080-exec-1] com.example.UserService - Processing batch job #8172.
-2023-10-24 10:17:51,408 INFO  [http-nio-8080-exec-3] com.example.Application - Email sent successfully.
-2023-10-24 10:17:53,030 DEBUG [main] com.example.UserService - Returning HTTP 200 OK for /api/users/123
-2023-10-24 10:17:54,889 WARN  [kafka-consumer-1] com.example.UserService - Kafka consumer rebalancing.
-2023-10-24 10:17:56,356 DEBUG [main] com.example.PaymentProcessor - Commit offset successful.
-2023-10-24 10:17:56,522 INFO  [kafka-consumer-1] com.example.Application - Incoming HTTP GET request to /api/users/123
-2023-10-24 10:17:57,364 INFO  [http-nio-8080-exec-2] com.example.DatabaseConnection - Email sent successfully.
-2023-10-24 10:17:57,636 DEBUG [http-nio-8080-exec-2] com.example.Application - Kafka consumer rebalancing.
-2023-10-24 10:17:58,525 INFO  [kafka-consumer-1] com.example.Application - Sending email notification to admin@example.com
-2023-10-24 10:17:59,216 WARN  [kafka-consumer-1] com.example.PaymentProcessor - Application started successfully.
-2023-10-24 10:17:59,464 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Application started successfully.
-2023-10-24 10:18:00,238 DEBUG [http-nio-8080-exec-3] com.example.Application - Email sent successfully.
-2023-10-24 10:18:00,390 INFO  [http-nio-8080-exec-1] com.example.Application - Cleanup completed successfully.
+2026-05-28 18:35:07,694 INFO  [main] com.example.UserService - Running scheduled cleanup...
+2026-05-28 18:35:08,194 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:35:08,694 DEBUG [main] org.springframework.web.servlet.DispatcherServlet - Sending email notification to admin@example.com
+2026-05-28 18:35:09,194 INFO  [http-nio-8080-exec-2] com.example.Application - Incoming HTTP GET request to /api/users/123
+2026-05-28 18:35:09,694 INFO  [http-nio-8080-exec-2] com.example.DatabaseConnection - Successfully processed 500 records.
+2026-05-28 18:35:10,194 INFO  [Timer-0] com.example.UserService - Application started successfully.
+2026-05-28 18:35:10,694 WARN  [Timer-0] com.example.Application - Connection established.
+2026-05-28 18:35:11,194 DEBUG [http-nio-8080-exec-3] com.example.PaymentProcessor - Kafka consumer rebalancing.
+2026-05-28 18:35:11,694 INFO  [http-nio-8080-exec-3] com.example.UserService - Sending email notification to admin@example.com
+2026-05-28 18:35:12,194 INFO  [kafka-consumer-1] com.example.DatabaseConnection - Running scheduled cleanup...
+2026-05-28 18:35:12,694 INFO  [Timer-0] com.example.UserService - Processing batch job #8172.
+2026-05-28 18:35:13,194 INFO  [Timer-0] com.example.UserService - User profile 'john_doe' not found in cache, fetching from DB.
+2026-05-28 18:35:13,694 INFO  [http-nio-8080-exec-3] com.example.PaymentProcessor - Cleanup completed successfully.
+2026-05-28 18:35:14,194 INFO  [http-nio-8080-exec-1] com.example.UserService - Processing batch job #8172.
+2026-05-28 18:35:14,694 INFO  [http-nio-8080-exec-3] com.example.Application - Email sent successfully.
+2026-05-28 18:35:15,194 DEBUG [main] com.example.UserService - Returning HTTP 200 OK for /api/users/123
+2026-05-28 18:35:15,694 WARN  [kafka-consumer-1] com.example.UserService - Kafka consumer rebalancing.
+2026-05-28 18:35:16,194 DEBUG [main] com.example.PaymentProcessor - Commit offset successful.
+2026-05-28 18:35:16,694 INFO  [kafka-consumer-1] com.example.Application - Incoming HTTP GET request to /api/users/123
+2026-05-28 18:35:17,194 INFO  [http-nio-8080-exec-2] com.example.DatabaseConnection - Email sent successfully.
+2026-05-28 18:35:17,694 DEBUG [http-nio-8080-exec-2] com.example.Application - Kafka consumer rebalancing.
+2026-05-28 18:35:18,194 INFO  [kafka-consumer-1] com.example.Application - Sending email notification to admin@example.com
+2026-05-28 18:35:18,694 WARN  [kafka-consumer-1] com.example.PaymentProcessor - Application started successfully.
+2026-05-28 18:35:19,194 INFO  [http-nio-8080-exec-3] com.example.DatabaseConnection - Application started successfully.
+2026-05-28 18:35:19,694 DEBUG [http-nio-8080-exec-3] com.example.Application - Email sent successfully.
+2026-05-28 18:35:20,194 INFO  [http-nio-8080-exec-1] com.example.Application - Cleanup completed successfully.
