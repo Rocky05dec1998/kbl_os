@@ -28,12 +28,6 @@ extensions:
   zpages:
     endpoint: "0.0.0.0:55679"
 
-  # Persists filelog read positions so the collector resumes where it left off
-  # after restarts. Without this, restarts can skip or re-read log lines.
-  file_storage/checkpoints:
-    directory: /var/lib/otelcol/file_storage
-    create_directory: true
-
 
 # -----------------------------------------------------------------
 # RECEIVERS  –  Host Metrics
@@ -156,9 +150,6 @@ receivers:
           system.processes.created:
             enabled: true
 
-      # NOTE: Log collection is a separate receiver (filelog/app) — see below,
-      # outside the hostmetrics block.
-
       # ── Per-Process ─────────────────────────────────────────────
       # CARDINALITY-BOUNDED config: every process produces metrics, but we
       # drop PID / command_line / parent_pid / executable.path from the
@@ -202,41 +193,6 @@ receivers:
             enabled: true
           process.memory.virtual:     # VSZ (bytes)
             enabled: true
-
-  # -----------------------------------------------------------------
-  # FILELOG RECEIVER  –  Tail application logs and ship to Loki
-  # -----------------------------------------------------------------
-  #
-  # EDIT PER SERVER:
-  #   1. Update `include` to the log files you want to tail. The collector
-  #      runs in a container with the host's / mounted at /hostfs, so prefix
-  #      every host path with /hostfs (e.g. /var/log/myapp/*.log
-  #      → /hostfs/var/log/myapp/*.log).
-  #   2. Update the resource processor's `server.application` value to the
-  #      app name. That value is mirrored to `service.name`, which Loki's
-  #      OTLP ingest indexes as a label by default — so you'll be able to
-  #      filter logs with {service_name="<your-app>"} in LogQL.
-  #
-  # AUTO-DETECTED (no edit needed):
-  #   - server.name  ← /proc/sys/kernel/hostname via the same path as metrics
-  #   - server.ip    ← env var injected by start.sh
-  #
-  filelog/app:
-    include:
-      - /hostfs/root/opensearch/kbl_os/otel/sample-legacy-java.log
-    # 'end' = tail from the current end of file (typical for streaming).
-    # Change to 'beginning' to ingest the existing file contents once.
-    start_at: beginning
-    # Persist read offsets so restarts don't skip or re-read lines.
-    storage: file_storage/checkpoints
-    # Attach the source file as attributes so you can filter in Loki by file.
-    include_file_name: true
-    include_file_path: true
-    # Java/log4j stack traces span many lines. Treat a "new log entry" as
-    # any line starting with an ISO-8601 timestamp (with or without a [
-    # bracket prefix). Everything else gets appended to the previous entry.
-    multiline:
-      line_start_pattern: '^\[?\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}'
 
 
 # -----------------------------------------------------------------
@@ -300,22 +256,6 @@ processors:
           - set(attributes["server.name"], attributes["host.name"]) where attributes["host.name"] != nil
           # server.ip is injected directly as a resource attribute by the
           # wrapper script via OTEL_RESOURCE_ATTRIBUTES — no alias needed.
-    log_statements:
-      - context: resource
-        statements:
-          # Same alias for the logs pipeline so Loki sees server_name as a label.
-          - set(attributes["server.name"], attributes["host.name"]) where attributes["host.name"] != nil
-
-  # ── Loki label hint ───────────────────────────────────────────
-  # Loki's OTLP ingest indexes resource attribute `service.name` as a label
-  # by default. Mirror our `server.application` value into `service.name` so
-  # log filtering with {service_name="<app>"} works out of the box without
-  # any Loki-side configuration.
-  transform/loki_attrs:
-    log_statements:
-      - context: resource
-        statements:
-          - set(attributes["service.name"], attributes["server.application"]) where attributes["server.application"] != nil
 
   # ── 5. Static server tags  (edit these per server role) ───────
   #    server.name and server.ip are NOT here — they are auto-set above.
@@ -372,25 +312,9 @@ processors:
 
 
 # -----------------------------------------------------------------
-# EXPORTERS  –  Grafana Mimir (metrics) + Loki (logs)
+# EXPORTERS  –  Grafana Mimir
 # -----------------------------------------------------------------
 exporters:
-  # ── Loki (logs) ───────────────────────────────────────────────
-  # Loki 3+ accepts OTLP HTTP natively on /otlp. Update the endpoint to
-  # wherever your Loki instance lives.
-  otlphttp/loki:
-    endpoint: "http://172.16.217.198:3100/otlp"   # EDIT to your Loki host
-    tls:
-      insecure: true
-    headers:
-      X-Scope-OrgID: "anonymous"                  # match your Loki tenant
-    retry_on_failure:
-      enabled: true
-      initial_interval: 5s
-      max_interval: 60s
-      max_elapsed_time: 300s
-    timeout: 30s
-
   prometheusremotewrite:
     endpoint: "http://172.16.217.198:9009/api/v1/push"
 
@@ -432,7 +356,7 @@ exporters:
 # SERVICE PIPELINES
 # -----------------------------------------------------------------
 service:
-  extensions: [health_check, pprof, zpages, file_storage/checkpoints]
+  extensions: [health_check, pprof, zpages]
 
   pipelines:
     metrics:
@@ -447,19 +371,6 @@ service:
         - batch                       # last — batch for export
       exporters:
         - prometheusremotewrite
-
-    logs:
-      receivers:
-        - filelog/app
-      processors:
-        - memory_limiter              # 1st — always
-        - resourcedetection/system    # 2nd — host.name, host.ip, os.*
-        - transform/normalize_host_attrs  # 3rd — host.name → server.name
-        - resource                    # 4th — server.application, server.environment, etc.
-        - transform/loki_attrs        # 5th — server.application → service.name (Loki label)
-        - batch                       # last — batch for export
-      exporters:
-        - otlphttp/loki
 
   # telemetry:
   #   logs:

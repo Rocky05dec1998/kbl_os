@@ -11,6 +11,12 @@ services:
     network_mode: host
     pid: host
 
+    # The contrib image runs as UID 10001 by default, but the file_storage
+    # extension (used by filelog for checkpoint persistence) needs to write
+    # to its volume. Run as root — consistent with this container's already-
+    # privileged posture (pid:host, network_mode:host, /:/hostfs).
+    user: "0:0"
+
     # On RHEL 8 with SELinux=Enforcing, the default container label denies
     # reads under /hostfs (and /proc/* when pid:host). Disable SELinux
     # confinement for THIS container only — never use `:z` on `/`, which can
@@ -24,5 +30,11 @@ services:
       - /:/hostfs:ro
       # :z is safe here — single small file, app-specific path.
       - ./otel-config.yaml:/etc/otelcol-contrib/config.yaml:ro,z
+      # Persists filelog read offsets across collector restarts so log lines
+      # are neither skipped nor re-ingested. Named volume keeps it portable.
+      - otel_checkpoints:/var/lib/otelcol/file_storage
     command:
       - --config=/etc/otelcol-contrib/config.yaml
+
+volumes:
+  otel_checkpoints:
