@@ -47,7 +47,7 @@
         "y": 0
       },
       "id": 100,
-      "title": "📊 Overview",
+      "title": "\ud83d\udcca Overview",
       "type": "row"
     },
     {
@@ -472,8 +472,257 @@
         "x": 0,
         "y": 6
       },
+      "id": 150,
+      "title": "\ud83d\udcc8 Utilization Trends (CPU / Memory / Volume)",
+      "type": "row"
+    },
+    {
+      "id": 71,
+      "type": "timeseries",
+      "title": "CPU Utilization % \u2014 Trend",
+      "description": "Per-server CPU utilization over time. Threshold lines at 60% (orange) and 80% (red).",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "targets": [
+        {
+          "expr": "(1 - sum by (server_name) (rate(system_cpu_time{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"idle\"}[5m])) / sum by (server_name) (rate(system_cpu_time{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[5m]))) * 100",
+          "legendFormat": "{{server_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#73BF69",
+                "value": null
+              },
+              {
+                "color": "#FF9830",
+                "value": 60
+              },
+              {
+                "color": "#F2495C",
+                "value": 80
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "scheme",
+            "spanNulls": false,
+            "axisPlacement": "auto",
+            "showPoints": "never",
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 72,
+      "type": "timeseries",
+      "title": "Memory Utilization % \u2014 Trend",
+      "description": "Per-server memory usage over time. Threshold lines at 60% (orange) and 80% (red).",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "targets": [
+        {
+          "expr": "sum by (server_name) (system_memory_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"}) / sum by (server_name) (system_memory_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}) * 100",
+          "legendFormat": "{{server_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#73BF69",
+                "value": null
+              },
+              {
+                "color": "#FF9830",
+                "value": 60
+              },
+              {
+                "color": "#F2495C",
+                "value": 80
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "scheme",
+            "spanNulls": false,
+            "axisPlacement": "auto",
+            "showPoints": "never",
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 73,
+      "type": "timeseries",
+      "title": "Volume Utilization % \u2014 Trend",
+      "description": "Per-server filesystem utilization (sum used / sum total across all mounts) over time. Threshold lines at 60% (orange) and 80% (red).",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "targets": [
+        {
+          "expr": "(sum by (server_name) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\", state=\"used\"})) / (sum by (server_name) (system_filesystem_usage{server_name=~\"$server_name\", server_environment=~\"$server_environment\"})) * 100",
+          "legendFormat": "{{server_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#73BF69",
+                "value": null
+              },
+              {
+                "color": "#FF9830",
+                "value": 60
+              },
+              {
+                "color": "#F2495C",
+                "value": 80
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "scheme",
+            "spanNulls": false,
+            "axisPlacement": "auto",
+            "showPoints": "never",
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
       "id": 200,
-      "title": "🖥️ CPU",
+      "title": "\ud83d\udda5\ufe0f CPU",
       "type": "row"
     },
     {
@@ -484,7 +733,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 7
+        "y": 16
       },
       "datasource": {
         "type": "prometheus",
@@ -543,7 +792,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 7
+        "y": 16
       },
       "datasource": {
         "type": "prometheus",
@@ -606,10 +855,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 24
       },
       "id": 300,
-      "title": "🧠 Memory & Swap",
+      "title": "\ud83e\udde0 Memory & Swap",
       "type": "row"
     },
     {
@@ -620,7 +869,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 25
       },
       "datasource": {
         "type": "prometheus",
@@ -679,7 +928,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 16
+        "y": 25
       },
       "datasource": {
         "type": "prometheus",
@@ -736,10 +985,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 33
       },
       "id": 400,
-      "title": "💾 Disk I/O",
+      "title": "\ud83d\udcbe Disk I/O",
       "type": "row"
     },
     {
@@ -750,7 +999,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 34
       },
       "datasource": {
         "type": "prometheus",
@@ -759,12 +1008,12 @@
       "targets": [
         {
           "expr": "rate(system_disk_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"read\"}[$__rate_interval])",
-          "legendFormat": "Read — {{device}}",
+          "legendFormat": "Read \u2014 {{device}}",
           "refId": "A"
         },
         {
           "expr": "rate(system_disk_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"write\"}[$__rate_interval]) * -1",
-          "legendFormat": "Write — {{device}}",
+          "legendFormat": "Write \u2014 {{device}}",
           "refId": "B"
         }
       ],
@@ -810,7 +1059,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 34
       },
       "datasource": {
         "type": "prometheus",
@@ -819,12 +1068,12 @@
       "targets": [
         {
           "expr": "rate(system_disk_operations{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"read\"}[$__rate_interval])",
-          "legendFormat": "Read — {{device}}",
+          "legendFormat": "Read \u2014 {{device}}",
           "refId": "A"
         },
         {
           "expr": "rate(system_disk_operations{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"write\"}[$__rate_interval]) * -1",
-          "legendFormat": "Write — {{device}}",
+          "legendFormat": "Write \u2014 {{device}}",
           "refId": "B"
         }
       ],
@@ -868,10 +1117,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 33
+        "y": 42
       },
       "id": 500,
-      "title": "📁 Filesystem",
+      "title": "\ud83d\udcc1 Filesystem",
       "type": "row"
     },
     {
@@ -882,7 +1131,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 43
       },
       "datasource": {
         "type": "prometheus",
@@ -942,7 +1191,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 43
       },
       "datasource": {
         "type": "prometheus",
@@ -1002,10 +1251,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 42
+        "y": 51
       },
       "id": 600,
-      "title": "🌐 Network",
+      "title": "\ud83c\udf10 Network",
       "type": "row"
     },
     {
@@ -1016,7 +1265,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 52
       },
       "datasource": {
         "type": "prometheus",
@@ -1025,12 +1274,12 @@
       "targets": [
         {
           "expr": "rate(system_network_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"receive\"}[$__rate_interval])",
-          "legendFormat": "Rx — {{device}}",
+          "legendFormat": "Rx \u2014 {{device}}",
           "refId": "A"
         },
         {
           "expr": "rate(system_network_io{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"transmit\"}[$__rate_interval]) * -1",
-          "legendFormat": "Tx — {{device}}",
+          "legendFormat": "Tx \u2014 {{device}}",
           "refId": "B"
         }
       ],
@@ -1076,7 +1325,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 43
+        "y": 52
       },
       "datasource": {
         "type": "prometheus",
@@ -1085,12 +1334,12 @@
       "targets": [
         {
           "expr": "rate(system_network_packets{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"receive\"}[$__rate_interval])",
-          "legendFormat": "Rx — {{device}}",
+          "legendFormat": "Rx \u2014 {{device}}",
           "refId": "A"
         },
         {
           "expr": "rate(system_network_packets{server_name=~\"$server_name\", server_environment=~\"$server_environment\", direction=\"transmit\"}[$__rate_interval]) * -1",
-          "legendFormat": "Tx — {{device}}",
+          "legendFormat": "Tx \u2014 {{device}}",
           "refId": "B"
         }
       ],
@@ -1136,7 +1385,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 51
+        "y": 60
       },
       "datasource": {
         "type": "prometheus",
@@ -1145,7 +1394,7 @@
       "targets": [
         {
           "expr": "rate(system_network_errors{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
-          "legendFormat": "{{direction}} — {{device}}",
+          "legendFormat": "{{direction}} \u2014 {{device}}",
           "refId": "A"
         }
       ],
@@ -1191,7 +1440,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 51
+        "y": 60
       },
       "datasource": {
         "type": "prometheus",
@@ -1200,7 +1449,7 @@
       "targets": [
         {
           "expr": "rate(system_network_dropped{server_name=~\"$server_name\", server_environment=~\"$server_environment\"}[$__rate_interval])",
-          "legendFormat": "{{direction}} — {{device}}",
+          "legendFormat": "{{direction}} \u2014 {{device}}",
           "refId": "A"
         }
       ],
@@ -1244,10 +1493,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 59
+        "y": 68
       },
       "id": 700,
-      "title": "⚙️ Processes",
+      "title": "\u2699\ufe0f Processes",
       "type": "row"
     },
     {
@@ -1258,7 +1507,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 60
+        "y": 69
       },
       "datasource": {
         "type": "prometheus",
@@ -1316,7 +1565,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 60
+        "y": 69
       },
       "datasource": {
         "type": "prometheus",
@@ -1491,7 +1740,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "OTel Host Metrics — Server Monitoring",
+  "title": "OTel Host Metrics \u2014 Server Monitoring",
   "uid": "otel-host-metrics-dashboard",
   "version": 1,
   "weekStart": ""
