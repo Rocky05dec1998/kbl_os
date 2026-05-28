@@ -150,23 +150,49 @@ receivers:
           system.processes.created:
             enabled: true
 
-      # ── Per-Process (optional — uncomment & edit) ──────────────
-      # process:
-      #   include:
-      #     names: [nginx, httpd, java, python3, mysqld, postgres]
-      #     match_type: regexp
-      #   mute_process_name_error: true
-      #   metrics:
-      #     process.cpu.time:
-      #       enabled: true
-      #     process.memory.physical_usage:
-      #       enabled: true
-      #     process.memory.virtual_usage:
-      #       enabled: true
-      #     process.disk.io:
-      #       enabled: true
-      #     process.open_file_descriptors:
-      #       enabled: true
+      # ── Per-Process ─────────────────────────────────────────────
+      # CARDINALITY-BOUNDED config: every process produces metrics, but we
+      # drop PID / command_line / parent_pid / executable.path from the
+      # resource attributes. Result: one series per (executable.name, owner)
+      # tuple per host — typically ~50-200 series per server, growing only
+      # when new binaries appear. PID-level detail is NOT preserved; if
+      # multiple instances of the same binary exist (e.g. nginx workers),
+      # they appear as one series. SSH in and use `top` for PID-level work.
+      process:
+        # Silence noise from kernel threads / restricted /proc entries.
+        mute_process_name_error: true
+        mute_process_exe_error: true
+        mute_process_io_error: true
+        mute_process_user_error: true
+        mute_process_cgroup_error: true
+
+        resource_attributes:
+          # Disabled to cap cardinality.
+          process.pid:
+            enabled: false
+          process.parent_pid:
+            enabled: false
+          process.command:
+            enabled: false
+          process.command_line:
+            enabled: false
+          process.executable.path:
+            enabled: false
+          # Kept — these are the dimensions we actually query by.
+          process.executable.name:
+            enabled: true
+          process.owner:
+            enabled: true
+
+        metrics:
+          process.cpu.time:
+            enabled: true
+          process.cpu.utilization:    # Optional Gauge — direct fraction of one core
+            enabled: true
+          process.memory.usage:       # RSS (bytes)
+            enabled: true
+          process.memory.virtual:     # VSZ (bytes)
+            enabled: true
 
 
 # -----------------------------------------------------------------
