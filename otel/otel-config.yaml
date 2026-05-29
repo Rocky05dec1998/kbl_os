@@ -223,7 +223,7 @@ receivers:
   #
   filelog/app:
     include:
-      - /hostfs/root/opensearch/kbl_os/otel/sample-legacy-java.log
+      - /hostfs/root/opensearch/kbl_os/otel/OMNI_SIT-Client-18070.log
     # 'end' = tail from the current end of file (typical for streaming).
     # Change to 'beginning' to ingest the existing file contents once.
     start_at: beginning
