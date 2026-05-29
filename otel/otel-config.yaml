@@ -379,16 +379,26 @@ exporters:
   # Loki 3+ accepts OTLP HTTP natively on /otlp. Update the endpoint to
   # wherever your Loki instance lives.
   otlphttp/loki:
-    endpoint: "http://172.16.217.198:3100/otlp"   # EDIT to your Loki host
+    endpoint: "http://172.16.217.198:9200/otlp"   # EDIT to your Loki host
     tls:
       insecure: true
     headers:
       X-Scope-OrgID: "anonymous"                  # match your Loki tenant
+    # Persist unsent batches to disk via the file_storage extension so that
+    # an outage on the Loki side doesn't drop logs the receiver has already
+    # checkpointed as "read". The queue and the filelog read offsets share
+    # the same volume, so they stay consistent across restarts.
+    sending_queue:
+      enabled: true
+      storage: file_storage/checkpoints
+      num_consumers: 2
+      queue_size: 10000
     retry_on_failure:
       enabled: true
       initial_interval: 5s
       max_interval: 60s
-      max_elapsed_time: 300s
+      # 0 = retry forever; the persistent queue holds the batch across restarts.
+      max_elapsed_time: 0
     timeout: 30s
 
   prometheusremotewrite:
